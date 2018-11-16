@@ -1,7 +1,6 @@
-import Extension, {
-  handleNegotiation,
-  serializeExtensions
-} from '../src/Extension';
+const Extension = require('../server/extension.js');
+const header_serialize = require('../server/header_serialize.js');
+const { handleNegotiation } = Extension;
 
 class DummyExtension extends Extension {
   static get name() {
@@ -105,5 +104,5 @@ describe('extensions', () => {
 });
 
 function serializeWrap() {
-  return serializeExtensions(new Map(arguments));
+  return header_serialize(new Map(arguments));
 }

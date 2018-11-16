@@ -5,13 +5,13 @@
  * This work is licensed under the terms of the MIT license.
  */
 
-import { EMPTY_BUFFER, opCodes } from '../constants';
+const { EMPTY_BUFFER, opCodes } = require('./constants.js');
 
 /**
  * HyBi sender implementation
  * @see https://tools.ietf.org/html/rfc6455
  */
-export default class Sender {
+class Sender {
   /**
    * @param {Object} socket A turbo-net connection
    */
@@ -250,3 +250,5 @@ function frame(data, { fin, opCode, rsv1 }) {
 
   return [target, data];
 }
+
+module.exports = Sender

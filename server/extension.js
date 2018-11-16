@@ -1,8 +1,8 @@
-import { parse, serialize } from '@hugmanrique/ws-extensions';
+const header_parse = require('./header_parse.js')
+const header_serialize = require('./header_serialize.js')
 
-/* eslint-disable no-unused-vars */
+class Extension {
 
-export default class Extension {
   constructor(options = {}, maxPayload) {
     this.options = options;
     this.maxPayload = maxPayload;
@@ -23,7 +23,12 @@ export default class Extension {
   processData(receiver, data, callback) {}
 }
 
-export function handleNegotiation(server, socket, req) {
+module.exports = Extension
+module.exports.header_parse = header_parse
+module.exports.header_serialize = header_serialize
+module.exports.handleNegotiation = handleNegotiation
+
+function handleNegotiation(server, socket, req) {
   const { extensions, options: { maxPayload } } = server;
 
   if (!extensions.length) {
@@ -34,7 +39,7 @@ export function handleNegotiation(server, socket, req) {
   const { extensions: negotiated } = socket;
 
   try {
-    const offers = parse(req.getHeader('Sec-WebSocket-Extensions'));
+    const offers = header_parse(req.getHeader('Sec-WebSocket-Extensions'));
 
     for (const Extension of extensions) {
       const extName = Extension.name;
@@ -61,22 +66,3 @@ function getOfferParams(offers, extensionName) {
     .map(offer => offer.params);
 }
 
-/**
- * Builds the Sec-WebSocket-Extension header field value.
- *
- * @param {Object} extensions A Map containing extName -> instance entries.
- * @return {String} A string representing the given extension map.
- */
-export function serializeExtensions(extensions) {
-  let header = '';
-
-  for (const [name, { options }] of extensions) {
-    header += serialize(name, options) + ', ';
-  }
-
-  if (!header) {
-    return header;
-  }
-
-  return header.substring(0, header.length - 2);
-}

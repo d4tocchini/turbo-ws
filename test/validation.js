@@ -1,4 +1,4 @@
-import { isValidStatusCode } from '../src/validate';
+import { isValidStatusCode } from '../server/validate.js';
 
 describe('validation', () => {
   test('close frame status codes', () => {

@@ -1,19 +1,27 @@
-import crypto from 'crypto';
-import { parse } from 'url';
-import { magicValue } from './constants';
+const crypto = require('crypto');
+const statusCodes = require('turbo-http/http-status');
+const { parse } = require('url');
+const { magicValue } = require('./constants.js');
 
-import statusCodes from 'turbo-http/http-status';
-export { statusCodes };
+export {
+  statusCodes,
+  asksForUpgrade,
+  shouldHandleRequest,
+  pathEquals,
+  getUpgradeKey,
+  addListeners,
+  forwardEvent
+};
 
 // Upgrade utils
-export function asksForUpgrade(req) {
+function asksForUpgrade(req) {
   return (
     req.method === 'GET' &&
     req.getHeader('Upgrade').toLowerCase() === 'websocket'
   );
 }
 
-export function shouldHandleRequest(server, req, version) {
+function shouldHandleRequest(server, req, version) {
   return (
     isValidVersion(version) && server.shouldHandle(req) // TODO Create version func
   );
@@ -23,11 +31,11 @@ function isValidVersion(version) {
   return version === 8 || version === 13;
 }
 
-export function pathEquals(path, req) {
+function pathEquals(path, req) {
   return parse(req.url).pathname === path;
 }
 
-export function getUpgradeKey(clientKey) {
+function getUpgradeKey(clientKey) {
   return crypto
     .createHash('sha1')
     .update(`${clientKey}${magicValue}`, 'binary')
@@ -36,7 +44,7 @@ export function getUpgradeKey(clientKey) {
 
 // EventEmitter utils
 
-export function addListeners(server, events) {
+function addListeners(server, events) {
   const eventNames = Object.keys(events);
 
   for (const event of eventNames) {
@@ -51,6 +59,6 @@ export function addListeners(server, events) {
   };
 }
 
-export function forwardEvent(server, eventName) {
+function forwardEvent(server, eventName) {
   return server.emit.bind(server, eventName);
 }

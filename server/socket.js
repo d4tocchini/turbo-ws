@@ -1,17 +1,17 @@
-/* 
- * Modification of the ws project. Copyright (c) 2011 Einar Otto Stangvik. 
+/*
+ * Modification of the ws project. Copyright (c) 2011 Einar Otto Stangvik.
  * Available on https://github.com/websockets/ws/
  * 
  * This work is licensed under the terms of the MIT license.
  */
 
-import EventEmitter from 'events';
-import Receiver, { statusCodeKey } from './Receiver';
-import Sender from './Sender';
+const EventEmitter = require('events');
+const Receiver = require('./receiver.js');
+const Sender = require('./sender.js');
+const { states, CLOSE_TIMEOUT, EMPTY_BUFFER } = require('./constants.js');
+const { statusCodeKey } = Receiver;
 
-import { states, CLOSE_TIMEOUT, EMPTY_BUFFER } from '../constants';
-
-export default class WebSocket extends EventEmitter {
+class WebSocket extends EventEmitter {
   constructor(maxPayload) {
     super();
 
@@ -268,3 +268,5 @@ export default class WebSocket extends EventEmitter {
     throw err;
   }
 }
+
+module.exports = WebSocket

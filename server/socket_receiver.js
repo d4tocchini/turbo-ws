@@ -1,24 +1,23 @@
-/* 
- * Modification of the ws project. Copyright (c) 2011 Einar Otto Stangvik. 
+/*
+ * Modification of the ws project. Copyright (c) 2011 Einar Otto Stangvik.
  * Available on https://github.com/websockets/ws/
  * 
  * This work is licensed under the terms of the MIT license.
  */
 
-import { Writable } from 'stream';
-import { isValidUtf8, isValidStatusCode } from '../validate';
-import { unmask } from '../buffers';
-import {
+const { Writable } = require('stream');
+const { isValidUtf8, isValidStatusCode } = require('./validate.js');
+const { unmask } = require('./buffers.js');
+const {
   opCodes,
   frameSizeLimit,
   frameSizeMult,
   EMPTY_BUFFER
-} from '../constants';
+} = require('./constants.js');
 
-export const statusCodeKey = Symbol('status-code');
+const statusCodeKey = Symbol('status-code');
 const stopLoopKey = Symbol('stop-loop');
-
-export const states = {
+const states = {
   GET: 0,
   GET_PAYLOAD_LENGTH_16: 1,
   GET_PAYLOAD_LENGTH_64: 2,
@@ -355,4 +354,6 @@ function toBuffer(fragments, messageLength) {
   return EMPTY_BUFFER;
 }
 
-export default Receiver;
+module.exports = Receiver;
+module.exports = statusCodeKey
+module.exports = states

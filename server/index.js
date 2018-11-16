@@ -1,14 +1,16 @@
-/* 
+/*
  * Modification of the ws project. Copyright (c) 2011 Einar Otto Stangvik. 
  * Available on https://github.com/websockets/ws/
  * 
  * This work is licensed under the terms of the MIT license.
  */
 
-import { EventEmitter } from 'events';
-import http from 'turbo-http';
-
-import {
+const { EventEmitter } = require('events');
+const http = require('turbo-http');
+const WebSocket = require('./socket.js');
+const { handleNegotiation, header_serialize } = require('./extension.js');
+const { EMPTY_BUFFER } = require('./constants.js');
+const {
   statusCodes,
   asksForUpgrade,
   shouldHandleRequest,
@@ -16,14 +18,10 @@ import {
   getUpgradeKey,
   addListeners,
   forwardEvent
-} from './util';
+} = require('./util');
 
-import WebSocket from './socket';
-import { handleNegotiation, serializeExtensions } from './Extension';
 
-import { EMPTY_BUFFER } from './constants';
-
-export default class Server extends EventEmitter {
+class Server extends EventEmitter {
   constructor({
     maxPayload = 100 * 1024 * 1024,
     extensions = [],
@@ -117,8 +115,7 @@ export default class Server extends EventEmitter {
     const { extensions } = socket;
 
     if (extensions) {
-      const value = serializeExtensions(extensions);
-      res.setHeader('Sec-WebSocket-Extensions', value);
+      res.setHeader('Sec-WebSocket-Extensions', header_serialize(extensions));
     }
 
     this.emit('headers', res);
@@ -157,3 +154,5 @@ function closeConnection(socket, res, code, message) {
 function onSocketError() {
   this.destroy();
 }
+
+module.exports = Server

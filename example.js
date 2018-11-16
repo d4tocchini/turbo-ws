@@ -1,4 +1,4 @@
-const Server = require('./dist/').default;
+const Server = require('./server');
 
 const port = 5000;
 const server = new Server();

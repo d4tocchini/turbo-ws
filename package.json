@@ -18,22 +18,17 @@
     "email": "npm@hugmanrique.me"
   },
   "files": [
-    "dist/",
+    "server/",
     "README.md",
     "LICENSE"
   ],
-  "main": "dist/index.js",
+  "main": "server/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/hugmanrique/turbo-ws"
   },
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "babel src -d dist --ignore 'src/**/*.test.js'",
-    "prepublish": "npm run prebuild && npm run build",
-    "clean": "del-cli dist",
     "release": "standard-version",
-    "watch": "npm run build -- -w",
     "test": "jest",
     "test-ci": "jest && cat ./coverage/lcov.info | coveralls"
   },
@@ -41,16 +36,9 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
-    "@hugmanrique/ws-extensions": "0.0.2",
-    "turbo-http": "d4tocchini/turbo-htt"    
+    "turbo-http": "d4tocchini/turbo-htt"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.40",
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^22.4.1",
     "coveralls": "^3.0.0",
     "del-cli": "^1.1.0",
     "jest": "^22.4.2",
