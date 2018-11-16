@@ -5,14 +5,18 @@
  * This work is licensed under the terms of the MIT license.
  */
 
-import isValidUtf8 from 'utf-8-validate';
+ /**
+  * NOTE: implied safety for the perf
 
+import isValidUtf8 from 'utf-8-validate';
 export { isValidUtf8 };
+
+*/
 
 /**
  * Check if a status code is allowed in a CLOSE frame
  */
-export function isValidStatusCode(code) {
+module.exports.isValidStatusCode = function (code) {
   return (
     (code >= 1000 &&
       code <= 1013 &&

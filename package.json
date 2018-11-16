@@ -42,8 +42,7 @@
   },
   "dependencies": {
     "@hugmanrique/ws-extensions": "0.0.2",
-    "turbo-http": "^0.3.0",
-    "utf-8-validate": "^4.0.0"
+    "turbo-http": "d4tocchini/turbo-htt"    
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.40",
